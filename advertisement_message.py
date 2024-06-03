@@ -39,7 +39,11 @@ async def advertisement_message_back(update: Update, context: ContextTypes.DEFAU
     query = update.callback_query
 
     if query is None:
-        await update.message.reply_text(text=text, reply_markup=reply_markup)
+        await update.message.reply_text(
+            text=text,
+            reply_markup=reply_markup,
+            parse_mode=telegram.constants.ParseMode.HTML
+        )
     else:
         await query.answer()
         await query.edit_message_text(
