@@ -89,6 +89,7 @@ def main() -> None:
         },
         fallbacks=[
             CommandHandler("start", start),
+            CommandHandler("premium", advertisement_message_back),
             CommandHandler("courses", course_list),
             CallbackQueryHandler(advertisement_sure, pattern="advertisement_message_yes"),
             CallbackQueryHandler(delete_message, pattern="advertisement_message_no"),

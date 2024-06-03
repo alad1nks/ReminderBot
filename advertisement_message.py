@@ -40,10 +40,13 @@ async def advertisement_message_back(update: Update, context: ContextTypes.DEFAU
 
     query = update.callback_query
 
-    await query.answer()
-    await query.edit_message_text(
-        text=text,
-        reply_markup=reply_markup
-    )
+    if query is None:
+        await update.message.reply_text(text=text, reply_markup=reply_markup)
+    else:
+        await query.answer()
+        await query.edit_message_text(
+            text=text,
+            reply_markup=reply_markup
+        )
 
     return ADVERTISEMENT_MESSAGE
