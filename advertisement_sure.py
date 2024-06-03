@@ -1,3 +1,4 @@
+import telegram
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
 
@@ -5,9 +6,10 @@ from constants import ADVERTISEMENT_SURE
 
 
 async def advertisement_sure(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    text = ("Ты покупаешь шаблон для планирования за 30 ₽.  В покупку входит шаблон на платформе Notion и гайд для "
-            "самоорганизации обучения в подарок.\n\nСсылка на оплату https://yoomoney.ru/fundraise/132SFMFDFEI.240531"
-            "\n\n❗️После оплаты пришли скриншот платежа (чек) и нажми кнопку «Проверить»")
+    text = ("Ты покупаешь <b>шаблон для планирования за 30 ₽</b>.  В покупку входит шаблон на платформе Notion и гайд "
+            "для самоорганизации обучения в подарок.\n\nСсылка на оплату "
+            "<u>https://yoomoney.ru/fundraise/132SFMFDFEI.240531</u>\n\n❗️После оплаты пришли скриншот платежа (чек) и "
+            "нажми кнопку «Проверить»")
 
     keyboard = [
         [InlineKeyboardButton("Проверить", callback_data="advertisement_sure_next"),
@@ -19,7 +21,8 @@ async def advertisement_sure(update: Update, context: ContextTypes.DEFAULT_TYPE)
     await query.answer()
     await query.edit_message_text(
         text=text,
-        reply_markup=reply_markup
+        reply_markup=reply_markup,
+        parse_mode=telegram.constants.ParseMode.HTML
     )
 
     return ADVERTISEMENT_SURE
