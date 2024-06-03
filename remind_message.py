@@ -14,8 +14,8 @@ async def remind_message(context: CallbackContext) -> int:
     text = f"Пора учиться! Твой курс {course_name}\n\n{course_url}"
 
     keyboard = [
-        [InlineKeyboardButton("Создать новый трекер", callback_data="create"),
-         InlineKeyboardButton("Мои курсы", callback_data="my_courses")]
+        [InlineKeyboardButton("Создать новый трекер", callback_data="remind_message_create"),
+         InlineKeyboardButton("Мои курсы", callback_data="remind_message_my_courses")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 

@@ -1,6 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
+from advertisement_message import advertisement_message
 from constants import COURSE_LINK
 
 text = (
@@ -11,16 +12,25 @@ text = (
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     user_data = context.user_data
-    user_data['courses'] = []
-    user_data['status'] = 'create'
-    await update.message.reply_text(text=text)
-    return COURSE_LINK
 
+    if 'courses' not in user_data:
+        user_data['courses'] = []
 
-async def restart(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    user_data = context.user_data
+        chat_id = update.effective_chat.id
+        context.job_queue.run_once(
+            advertisement_message,
+            when=5,
+            data={'chat_id': chat_id}
+        )
+
     user_data['status'] = 'create'
+
     query = update.callback_query
-    await query.answer()
-    await query.edit_message_text(text=text)
+
+    if query is None:
+        await update.message.reply_text(text=text)
+    else:
+        await query.answer()
+        await query.edit_message_text(text=text)
+
     return COURSE_LINK
